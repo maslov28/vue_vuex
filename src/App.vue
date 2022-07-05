@@ -6,7 +6,12 @@
     <div class="container">
       <h1 class="title">Товары</h1>
       <div class="cards">
-        <app-card v-for="card in $store.state.cards" :key="card.id" :card="card"></app-card>
+        <app-card 
+          v-for="(card, idx) in cards" 
+          :key="card.id" 
+          :idx="idx"
+          :card="card"
+        ></app-card>
       </div>
     </div>
   </div>
@@ -15,11 +20,20 @@
 <script>
 import AppCard from './components/AppCard.vue'
 import AppBasket from './components/AppBasket.vue'
+import { useStore } from 'vuex'
+import { computed } from 'vue'
 
 export default {
   components: {
     AppCard,
     AppBasket
+  },
+  setup() {
+    const store = new useStore()
+
+    return {
+      cards: computed(() => store.state.cards)
+    }
   }
 }
 </script>
@@ -29,11 +43,12 @@ export default {
     background-color: rgb(223, 223, 223);
     width: 100%;
     padding: 10px;
-    margin-bottom: 50px;
     display: flex;
     align-items: center;
     justify-content: end;
     box-sizing: border-box;
+    position: fixed;
+    top: 0;
   }
   .container{
     width: 1000px;
@@ -41,6 +56,7 @@ export default {
   }
   .title {
     text-align: center;
+    margin-top: 70px;
   }
   .cards {
     display: flex;

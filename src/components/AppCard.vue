@@ -7,16 +7,37 @@
       <p class="card__price">{{ card.price.toLocaleString() }} р</p>
     </div>
     <div class="card__buttons">
-      <button>-</button>
-      <button>+</button>
+      <button @click="remove">-</button>
+      <button @click="add">+</button>
     </div>
   </div>
 </template>
 
 <script>
+import { useStore } from 'vuex'
 export default {
   props: {
-    card: Object
+    card: Object,
+    idx: Number
+  },
+  setup(props) {
+    const store = new useStore()
+    const add = () => {
+      store.commit('add', {
+        idx: props.idx
+      })
+    }
+    const remove = () => {
+      store.commit('remove', {
+        idx: props.idx,
+        id: props.card.id
+      })
+    }
+
+    return {
+      add,
+      remove
+    }
   }
 }
 </script>
